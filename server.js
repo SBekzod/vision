@@ -1,28 +1,31 @@
-console.log("Web Serverni boshlash");
-const express = require("express");
-const app = express();
+const dotenv = require("dotenv");
+dotenv.config();
+
 const http = require("http");
+const mysql = require("mysql2/promise");
 
-// 1: Kirish code
-app.use(express.static("public"));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+mysql
+  .createConnection({
+    host: process.env.MYSQL_HOST,
+    user: process.env.MYSQL_USER,
+    password: process.env.MYSQL_PASSWORD,
+    port: process.env.MYSQL_PORT,
+    database: process.env.MYSQL_DATABASE,
+  })
+  .then((connection) => {
+    console.log("MySQL connection succeed");
 
-// 2: Session code
-// 3: Views code
-app.set("views", "views");
-app.set("view engine", "ejs");
+    const MySql = require("./MySQL");
+    const db = new MySql(connection);
+    module.exports = db;
 
-// 4 Routing code
-app.get("/hello", function (req, res) {
-  res.end(`<h1>HELLO WORLD</h1>`);
-});
-app.get("/gift", function (req, res) {
-  res.end(`<h1>Siz sovgalar bolimidasiz</h1>`);
-});
-
-const server = http.createServer(app);
-let PORT = 3000;
-server.listen(PORT, function () {
-  console.log(`The server is running successfully on port: ${PORT}`);
-});
+    const app = require("./app");
+    const server = http.createServer(app);
+    let PORT = process.env.PORT || 3077;
+    server.listen(PORT, function () {
+      console.log(
+        `The server is running successfully on port: ${PORT}, http://localhost:${PORT}`
+      );
+    });
+  })
+  .catch();
