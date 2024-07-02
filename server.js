@@ -1,6 +1,5 @@
 const dotenv = require("dotenv");
 dotenv.config();
-
 const http = require("http");
 const mysql = require("mysql2/promise");
 
@@ -14,10 +13,7 @@ mysql
   })
   .then((connection) => {
     console.log("MySQL connection succeed");
-
-    const MySql = require("./MySQL");
-    const db = new MySql(connection);
-    module.exports = db;
+    module.exports = connection;
 
     const app = require("./app");
     const server = http.createServer(app);
