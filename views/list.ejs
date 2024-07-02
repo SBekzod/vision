@@ -10,12 +10,37 @@
       integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS"
       crossorigin="anonymous"
     />
-  </head>
-  <body style="background-color: #b8bbd1">
-    <div class="container">
-      <h1 class="display-4 text-center py-1">MY VISIONS</h1>
 
-      <div class="jumbotron p-3 shadow-sm">
+    <style>
+      .image-container {
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+      }
+
+      .image-container::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        background-image: url("/prince.jpg");
+        background-size: cover;
+        background-position: center;
+        z-index: -1;
+        background-color: rgb(62 165 91 / 50%);
+        filter: blur(4px);
+      }
+    </style>
+  </head>
+  <body class="image-container">
+    <div class="container">
+      <h1 style="font-family: fantasy" class="display-4 text-center py-1">
+        MY VISIONS
+      </h1>
+
+      <div class="jumbotron p-3" style="background-color: unset">
         <form id="create-form" action="/create-item" method="POST">
           <div class="d-flex align-items-center">
             <input
@@ -37,7 +62,8 @@
       <ul id="item-list" class="list-group pb-5">
         <% items.map(function(item) { %>
         <li
-          class="list-group-item list-group-item-info d-flex align-items-center justify-content-between"
+          style="color: #0c5460; opacity: 0.85"
+          class="list-group-item d-flex align-items-center justify-content-between"
         >
           <span class="item-text"><%=item.visionName%></span>
           <div>
